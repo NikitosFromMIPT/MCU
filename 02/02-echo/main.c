@@ -8,6 +8,7 @@ int main()
     while (1)
     {
         char symbol = getchar(); //считывание введенного символа из PUTTY терминала:
-        printf("ASCII код: %d\n", symbol);
+        printf("ASCII код \"%c\": %d\n", symbol, symbol);
+        printf("\n");
     }
 }

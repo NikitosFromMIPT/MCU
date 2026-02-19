@@ -2,9 +2,16 @@
 #include "stdio.h"  // Для работы с вводом/выводом данных standart input output
 #include "stdio_task/stdio_task.h" // Для обработки многосимвольных команд
 #include "protocol_task/protocol_task.h"
+#include "led_task/led_task.h"
 #include "main.h"
 
 char* result;
+
+void version_callback(const char* args)
+{
+    printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);
+}
+
 void version_callback(const char* args)
 {
     printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);
@@ -21,6 +28,7 @@ int main()
     stdio_task_init(); // Иницилизация обрабоки команд
     stdio_init_all(); // Инициализация система вводы/вывода
     protocol_task_init(device_api);
+
     while(1) 
     {
         result = stdio_task_handle();  // Получаем адрес

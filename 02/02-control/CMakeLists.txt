@@ -18,6 +18,8 @@ pico_sdk_init()
 add_executable(${PROJECT_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/main.c
 	${CMAKE_CURRENT_SOURCE_DIR}/stdio_task/stdio_task.c
+	${CMAKE_CURRENT_SOURCE_DIR}/protocol_task/protocol_task.c
+	${CMAKE_CURRENT_SOURCE_DIR}/led_task/led_task.c
 )
 
 # Указываем на какие библиотеки ссылается наш код - типовая строчка для любого CMakeLists.txt

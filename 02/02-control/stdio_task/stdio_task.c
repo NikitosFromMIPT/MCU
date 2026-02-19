@@ -27,7 +27,7 @@ char* stdio_task_handle()  // Возвращает адрес, где лежит
 		command[command_buf_idx] = '\0'; // Добавляем нуль-терминатор в конец строки, он ограничет строку
 		command_buf_idx = 0;
 		
-		printf("received string: '%s'\n", command);
+		printf("received string: '%s'\n", command); // закомитить чтобы не выводило дважды строку
 
 	return command;
 	}

@@ -5,38 +5,41 @@
 #include "led_task/led_task.h"
 #include "main.h"
 
-char* result;
-
-void version_callback(const char* args)
+void version_callback(const char* args) {printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);}
+void led_on_callback(const char* args) 
 {
-    printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);
+    led_task_state_set(1);
+    printf("LED ON\n");
 }
-
-void version_callback(const char* args)
+void led_off_callback(const char* args) 
 {
-    printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);
+    led_task_state_set(0);
+    printf("LED OFF\n");
+}
+void led_blink_callback(const char* args) 
+{
+    led_task_state_set(2);
+    printf("LED BLINK\n");
 }
 
 api_t device_api[] =
 {
     {"version", version_callback, "get device name and firmware version"},
+    {"on", led_on_callback, "start working od the LED"},
+    {"off", led_off_callback, "stop working od the LED"},
+    {"blink", led_blink_callback, "start blinkig of the LED"},
     {NULL, NULL, NULL},
 };
 
 int main()
 {
-    stdio_task_init(); // Иницилизация обрабоки команд
+    stdio_task_init(); // Иницилизация считывания многосимвольных команд
     stdio_init_all(); // Инициализация система вводы/вывода
-    protocol_task_init(device_api);
-
+    protocol_task_init(device_api); // Иницилизация обработки команд 
+    led_task_init(); // Иницилизация задачи светодиод
     while(1) 
     {
-        result = stdio_task_handle();  // Получаем адрес
-        
-        if (result != NULL)  // Если адрес не 0 (не NULL)
-        {
-            printf("Команда: %s\n", result);  // %s идет по адресу и читает символы до \0
-            protocol_task_handle(result);
-        }
+        protocol_task_handle(stdio_task_handle()); // считываем команду взятие строки
+        led_task_handle(); // обрабатывает режим работы светодиода
     }
 }

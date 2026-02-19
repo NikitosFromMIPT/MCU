@@ -13,6 +13,7 @@ void led_task_init(void)
     led_state = LED_STATE_OFF;
     led_ts = 0;
     gpio_init(LED_PIN);
+    gpio_set_dir(LED_PIN, GPIO_OUT);
 }
 
 void led_task_handle(void) // обрабочик led отвечает за поддержание режима

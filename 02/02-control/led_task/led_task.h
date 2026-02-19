@@ -8,5 +8,5 @@ typedef enum
 } led_state_t;
 
 void led_task_init(void);
-void* led_task_handle();
+void led_task_handle(void);
 void led_task_state_set(led_state_t state);

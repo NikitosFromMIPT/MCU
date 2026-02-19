@@ -9,7 +9,11 @@ static int commands_count = 0;
 void protocol_task_init(api_t* device_api)
 {
     api = device_api; //указатель на массив команд
-    commands_count = strlen(device_api);
+    while (device_api[commands_count].command_name != NULL) 
+    {
+        commands_count++;
+    }
+    printf(" Найденно '%d' команд\n", commands_count);    
 }
 
 void protocol_task_handle(char* command_string)

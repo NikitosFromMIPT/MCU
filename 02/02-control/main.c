@@ -21,6 +21,19 @@ void led_blink_callback(const char* args)
     led_task_state_set(2);
     printf("LED BLINK\n");
 }
+void led_blink_set_period_ms_callback(const char* args) 
+{
+    uint32_t period_ms = 0;
+    sscanf(args, "%u", &period_ms); // переписывает args по протоколу %u в period_ms
+    if (period_ms == 0) 
+    {
+        printf("error, period mast be > 0 \n");
+        return;
+    }
+    led_task_set_blink_period_ms(period_ms);
+    printf("period has been changed \n");
+
+}
 
 api_t device_api[] =
 {
@@ -28,6 +41,8 @@ api_t device_api[] =
     {"on", led_on_callback, "start working od the LED"},
     {"off", led_off_callback, "stop working od the LED"},
     {"blink", led_blink_callback, "start blinkig of the LED"},
+    {"set_period", led_blink_set_period_ms_callback, "change period of LED blinking"},
+    {"help", help_handle, "print command"},
     {NULL, NULL, NULL},
 };
 

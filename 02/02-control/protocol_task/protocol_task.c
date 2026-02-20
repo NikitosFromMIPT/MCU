@@ -16,6 +16,18 @@ void protocol_task_init(api_t* device_api)
     printf(" Найденно '%d' команд\n", commands_count);    
 }
 
+void help_handle(const char* args)
+{
+
+    printf("\nAvailable commands:\n");
+    printf("--------------------\n");
+    
+    for (int i = 0; api[i].command_name != NULL; i++) {
+        // Используем поле command_help для вывода описания
+        printf("  '%s' - '%s'\n", api[i].command_name, api[i].command_help);
+    }
+    printf("--------------------\n");
+}
 void protocol_task_handle(char* command_string)
 {
     if (!command_string) //	Добавляем в обработчик проверку на то, что `command_string` не равно `NULL`.
@@ -30,7 +42,7 @@ void protocol_task_handle(char* command_string)
     char* space_symbol = strchr(command_string, ' ');
 
     if (space_symbol)
-    {
+    {  
         *space_symbol = '\0';
         command_args = space_symbol + 1;
     }

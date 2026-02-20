@@ -1,7 +1,7 @@
 #include "led_task.h"
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
-
+#include "stdint.h"
 const uint LED_PIN = 25;
 uint LED_BLINK_PERIOD_US = 500000;
 bool state_bool = 0;
@@ -14,6 +14,11 @@ void led_task_init(void)
     led_ts = 0;
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
+}
+
+void led_task_set_blink_period_ms(uint32_t period_ms)
+{
+    LED_BLINK_PERIOD_US = period_ms * 1000;
 }
 
 void led_task_handle(void) // обрабочик led отвечает за поддержание режима
@@ -43,3 +48,4 @@ void led_task_state_set(led_state_t state) // отвечает за смену �
 {
     led_state = state; // можно добавить код для сбросов всяких таймеров и тд и тп для более коректной работы после смены режима
 }
+

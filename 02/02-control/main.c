@@ -5,6 +5,10 @@
 #include "led_task/led_task.h"
 #include "main.h"
 
+uint32_t read(uint32_t addr)
+{
+    return *(volatile uint32_t*)addr; // принимает адресс превращает его в указатель и возвращает прочитанный
+}
 void version_callback(const char* args) {printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);}
 void led_on_callback(const char* args) 
 {
@@ -32,8 +36,52 @@ void led_blink_set_period_ms_callback(const char* args)
     }
     led_task_set_blink_period_ms(period_ms);
     printf("period has been changed \n");
-
 }
+void help_callback(const char* args)
+{
+    printf("\nAvailable commands:\n");
+    printf("--------------------\n");
+    help_handle();
+    printf("--------------------\n");
+}
+
+
+
+
+void mem_callback(const char* args)
+{
+    uint32_t addr;
+
+    // Читаем адрес в шестнадцатеричном формате
+    if (sscanf(args, "%x", &addr) == 1) //==1 проверка что считан 1 элемент
+    {  
+        // Читаем значение по адресу
+        printf("addr: 0x%08x -> value: 0x%08x (%u)\n", addr, read(addr), read(addr));
+    } 
+    else 
+    {
+        printf("Usage: mem <hex_address>\n");
+        printf("Example: mem 20001000\n");
+        return;
+    }
+}
+
+void wmem_callback(const char* args)
+{
+    uint32_t addr, value;
+    if (sscanf(args, "%x %x", &addr, &value) == 2) //==2 проверка что считано 2 элемент
+    {  
+        *(volatile uint32_t*)addr = value;
+        printf(" in addr: 0x%08x -> new value: 0x%08x (%u)\n", addr, value, value);
+    } 
+    else 
+    {
+        printf("error\n");
+        return;
+    }
+}
+
+
 
 api_t device_api[] =
 {
@@ -42,7 +90,9 @@ api_t device_api[] =
     {"off", led_off_callback, "stop working od the LED"},
     {"blink", led_blink_callback, "start blinkig of the LED"},
     {"set_period", led_blink_set_period_ms_callback, "change period of LED blinking"},
-    {"help", help_handle, "print command"},
+    {"mem", mem_callback, "reading ptr adress"},
+    {"wmem", wmem_callback, "Writes a new value to the specified address wmem(adress, value)"},
+    {"help", help_callback, "print discribtion of commands"},
     {NULL, NULL, NULL},
 };
 

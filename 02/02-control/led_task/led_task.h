@@ -1,5 +1,5 @@
 #pragma once
-
+#include "stdint.h" // для работы с uint32_t
 typedef enum
 {
 	LED_STATE_OFF = 0,
@@ -10,3 +10,4 @@ typedef enum
 void led_task_init(void);
 void led_task_handle(void);
 void led_task_state_set(led_state_t state);
+void led_task_set_blink_period_ms(uint32_t period_ms);

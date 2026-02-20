@@ -14,4 +14,5 @@ void protocol_task_init(api_t* device_api); //Функция инициализ�
 
 void protocol_task_handle(char* command_string); //Функция обработки полученной команды.
 
-void help_handle(const char* args); 
+void help_handle(void); 
+

@@ -12,17 +12,17 @@ uint32_t read(uint32_t addr)
 void version_callback(const char* args) {printf("device name: '%s', firmware version: %s\n", DEVICE_NAME, DEVICE_VRSN);}
 void led_on_callback(const char* args) 
 {
-    led_task_state_set(1);
+    led_task_state_set(LED_STATE_ON);
     printf("LED ON\n");
 }
 void led_off_callback(const char* args) 
 {
-    led_task_state_set(0);
+    led_task_state_set(LED_STATE_OFF);
     printf("LED OFF\n");
 }
 void led_blink_callback(const char* args) 
 {
-    led_task_state_set(2);
+    led_task_state_set(LED_STATE_BLINK);
     printf("LED BLINK\n");
 }
 void led_blink_set_period_ms_callback(const char* args) 

@@ -46,9 +46,6 @@ void help_callback(const char* args)
     printf("--------------------\n");
 }
 
-
-
-
 void mem_callback(const char* args)
 {
     uint32_t addr;
@@ -89,6 +86,26 @@ void adc_mesure_callback(const char* args)
     printf("%f\n", voltage_V);
 }
 
+void adc_task_read_temperature_callback(const char* args)
+{
+    float temp_C;
+    temp_C = adc_task_read_temperature();
+    printf("%f\n", temp_C);
+}
+
+void tm_start_callback(const char* args)
+{
+    printf("Starting mesuring ...\n");
+    adc_task_state_set(ADC_TASK_STATE_RUN);
+    
+}
+
+void tm_stop_callback(const char* args)
+{
+    adc_task_state_set(ADC_TASK_STATE_IDLE);
+    printf("Stop mesuring ...\n");
+}
+
 api_t device_api[] =
 {
     {"version", version_callback, "get device name and firmware version"},
@@ -98,7 +115,10 @@ api_t device_api[] =
     {"set_period", led_blink_set_period_ms_callback, "change period of LED blinking"},
     {"mem", mem_callback, "reading ptr adress"},
     {"wmem", wmem_callback, "Writes a new value to the specified address wmem(adress, value)"},
-    {"get_adc", adc_mesure_callback, "print discribtion of commands"},
+    {"get_adc", adc_mesure_callback, "print voltage on ADC"},
+    {"get_temp", adc_task_read_temperature_callback, "print value of temperature"},
+    {"tm_start", tm_start_callback, "Start mesuring Voltage on ADC_Chanel 0 and device temperature "},
+    {"tm_stop", tm_stop_callback, "Stop mesuring"},
     {"help", help_callback, "print discribtion of commands"},
     {NULL, NULL, NULL},
 };
@@ -114,5 +134,6 @@ int main()
     {
         protocol_task_handle(stdio_task_handle()); // считываем команду взятие строки
         led_task_handle(); // обрабатывает режим работы светодиода
+        adc_task_handle(); // обрабатывает режим считывания данных
     }
 }

@@ -194,11 +194,13 @@ void bme280_read_hum_raw_callback(const char* args)
 void bme280_read_temp_C_callback(const char* args) 
 {
     float value = bmp280_get_temperature_celsius();
+    printf("%f\n", value);
     printf("Temperature: %f °C\n", value);
 }
 void bme280_read_pres_Pa_callback(const char* args) 
 {
     float value = bmp280_get_pressure_hpa();
+    printf("%f\n", value);
     printf("Presure: %f hPa\n", value);
 }
 

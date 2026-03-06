@@ -26,3 +26,5 @@ void bme280_write_reg(uint8_t reg_address, uint8_t value);
 uint16_t bme280_read_temp_raw();
 uint16_t bme280_read_pres_raw();
 uint16_t bme280_read_hum_raw();
+float bmp280_get_temperature_celsius(void);
+float bmp280_get_pressure_hpa(void);
